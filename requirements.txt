@@ -1,0 +1,6 @@
+streamlit>=1.32
+httpx>=0.27
+python-dotenv>=1.0
+pydantic>=2.6
+tqdm>=4.66
+aiofiles>=23.2
