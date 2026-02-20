@@ -69,14 +69,25 @@ All settings are read from environment variables (or a `.env` file):
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `SARVAM_API_KEY` | *(required)* | Your Sarvam API key |
-| `SARVAM_DOC_ENDPOINT` | `https://api.sarvam.ai/v1/document-intelligence/extract` | Document extraction endpoint |
+
+| `SARVAM_DOC_ENDPOINT` | `https://api.sarvam.ai/doc-digitization/job/v1` | Document extraction job endpoint |
 | `SARVAM_CHAT_ENDPOINT` | `https://api.sarvam.ai/v1/chat/completions` | Chat completion endpoint |
-| `LLM_MODEL_NAME` | `sarvam-2b` | LLM model for classification |
+| `LLM_MODEL_NAME` | `sarvam-2b-external` | LLM model for classification |
 | `DB_PATH` | `retention.db` | SQLite database file path |
 | `MAX_CONCURRENCY` | `5` | Max concurrent API calls |
 | `MAX_TEXT_CHARS` | `2000` | Max characters sent to LLM |
 | `HTTP_TIMEOUT` | `60` | API request timeout (seconds) |
+| `SARVAM_POLLING_TIMEOUT` | `300` | Job completion polling timeout (seconds) |
 | `MAX_RETRIES` | `3` | Retry attempts for 429/5xx errors |
+
+## API Workflow Notes
+
+This project uses the **Sarvam Document Intelligence Async API**:
+1.  **Create Job**: Initiates a document processing job.
+2.  **Upload**: Uploads the file to the returned Azure Blob URL (using `x-ms-blob-type: BlockBlob`).
+3.  **Start Job**: Triggers the processing.
+4.  **Poll Status**: Checks job status every 2 seconds until completion or timeout (`SARVAM_POLLING_TIMEOUT`).
+5.  **Download & Extract**: Downloads the output ZIP file and extracts the Markdown content.
 
 ---
 
