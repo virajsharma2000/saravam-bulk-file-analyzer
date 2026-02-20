@@ -20,7 +20,7 @@ class Config:
     # Sarvam Document Intelligence endpoint
     SARVAM_DOC_ENDPOINT: str = os.getenv(
         "SARVAM_DOC_ENDPOINT",
-        "https://api.sarvam.ai/v1/document-intelligence/extract",
+        "https://api.sarvam.ai/doc-digitization/job/v1",
     )
 
     # Sarvam Chat Completion endpoint
@@ -30,7 +30,7 @@ class Config:
     )
 
     # LLM model name for chat completion
-    LLM_MODEL_NAME: str = os.getenv("LLM_MODEL_NAME", "sarvam-2b")
+    LLM_MODEL_NAME: str = os.getenv("LLM_MODEL_NAME", "sarvam-2b-external")
 
     # ── Database ─────────────────────────────────────────────────────────────
     DB_PATH: str = os.getenv("DB_PATH", "retention.db")
@@ -44,6 +44,9 @@ class Config:
 
     # HTTP timeout in seconds for API calls
     HTTP_TIMEOUT: int = int(os.getenv("HTTP_TIMEOUT", "60"))
+
+    # Polling timeout in seconds for job completion
+    SARVAM_POLLING_TIMEOUT: int = int(os.getenv("SARVAM_POLLING_TIMEOUT", "300"))
 
     # Max retry attempts for 5xx / 429 errors
     MAX_RETRIES: int = int(os.getenv("MAX_RETRIES", "3"))
